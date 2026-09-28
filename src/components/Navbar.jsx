@@ -32,9 +32,10 @@ export default function Navbar() {
       {open && (
         <div className="mx-4 rounded-2xl bg-white p-4 shadow-lg md:hidden">
           {links.map((l) => (
-            <a key={l.label} href={l.href} onClick={() => setOpen(false)} className="block py-2 text-sm">{l.label}</a>
+            <a key={l.label} href={l.href} onClick={() => setOpen(false)} className="block py-2 text-sm text-slate-700">{l.label}</a>
           ))}
-          <Link to="/login" className="block py-2 text-sm font-medium">Log in</Link>
+          <Link to="/login" onClick={() => setOpen(false)} className="mt-2 block py-2 text-sm font-medium text-slate-700">Log in</Link>
+          <Button as={Link} to="/signup" onClick={() => setOpen(false)} className="mt-2 w-full">Sign up</Button>
         </div>
       )}
     </header>
