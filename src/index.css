@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+/* Replace these with exact values from Figma's inspect panel */
+@theme {
+  --color-brand: #1d3fe0;
+  --color-brand-dark: #1530b4;
+  --color-lime: #c8f53c;
+  --color-ink: #0f172a;
+  --color-soft: #f3f6ff;
+  --font-sans: "Poppins", system-ui, sans-serif;
+}
+
+.grid-bg {
+  background-color: var(--color-brand);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+body { @apply font-sans text-ink antialiased; }
