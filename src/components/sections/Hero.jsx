@@ -20,13 +20,7 @@ export default function Hero() {
           <div aria-hidden="true" className="absolute bottom-5 h-[72%] w-[76%] rotate-[-4deg] rounded-[46%_54%_8%_8%] bg-lime" />
           <img
             src="/assets/learner-headset.png"
-            alt="Learner studying with a laptop and headset"
-            onError={(event) => {
-              if (!event.currentTarget.dataset.fallback) {
-                event.currentTarget.dataset.fallback = "true";
-                event.currentTarget.src = "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80";
-              }
-            }}
+            alt="Young man holding a laptop and wearing headphones"
             className="relative z-10 h-full max-w-full object-contain object-bottom drop-shadow-2xl"
           />
           <div aria-hidden="true" className="absolute right-0 top-8 z-20 rotate-6 rounded-md bg-white px-3 py-2 text-xs font-bold text-brand shadow-lg sm:right-2 sm:top-12 sm:px-4 sm:py-3 sm:text-sm">
