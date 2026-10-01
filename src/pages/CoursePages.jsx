@@ -73,20 +73,33 @@ export function CourseSearch() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState(searchParams.get("q") ?? "");
   const [activeCategory, setActiveCategory] = useState("All");
+  const [activeLevel, setActiveLevel] = useState("All");
+  const [sortBy, setSortBy] = useState("relevant");
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 6;
   const term = (searchParams.get("q") ?? "").trim().toLowerCase();
   const searchCourses = !term && activeCategory === "All" ? [...courses, ...courses, ...courses] : courses;
   const filteredCourses = searchCourses.filter((course) => {
     const matchesCategory = activeCategory === "All" || course.category === activeCategory;
+    const matchesLevel = activeLevel === "All" || course.level === activeLevel;
     const matchesTerm = !term || `${course.title} ${course.author} ${course.category}`.toLowerCase().includes(term);
-    return matchesCategory && matchesTerm;
+    return matchesCategory && matchesLevel && matchesTerm;
   });
+  const sortedCourses = [...filteredCourses].sort((first, second) => {
+    if (sortBy === "rating") return second.rating - first.rating;
+    if (sortBy === "price-low") return first.price - second.price;
+    if (sortBy === "price-high") return second.price - first.price;
+    return 0;
+  });
+  const pageCount = Math.max(1, Math.ceil(sortedCourses.length / pageSize));
+  const visibleCourses = sortedCourses.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   return (
     <PageShell>
       <section className="grid-bg pb-7 pt-4 text-white">
         <div className="mx-auto max-w-6xl px-4 text-center">
           <h1 className="text-lg font-semibold sm:text-xl">Find Your Next Course</h1>
-          <form onSubmit={(event) => { event.preventDefault(); setSearchParams(query ? { q: query } : {}); }} className="mx-auto mt-4 flex max-w-md gap-1 rounded-full bg-white p-1">
+          <form onSubmit={(event) => { event.preventDefault(); setCurrentPage(1); setSearchParams(query ? { q: query } : {}); }} className="mx-auto mt-4 flex max-w-md gap-1 rounded-full bg-white p-1">
             <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search for your next skill" aria-label="Search courses" className="min-w-0 flex-1 rounded-full px-4 text-[10px] text-ink outline-none" />
             <button className="rounded-full bg-lime px-4 py-2 text-[10px] font-semibold text-ink">Search</button>
           </form>
@@ -94,19 +107,25 @@ export function CourseSearch() {
       </section>
       <main className="mx-auto max-w-6xl px-4 py-5 sm:py-7">
         <div className="flex items-center justify-between gap-3 text-[10px] text-slate-500">
-          <div className="flex items-center gap-2"><span>Filter:</span><button className="rounded-full border border-slate-200 px-2.5 py-1">All</button><button className="rounded-full border border-slate-200 px-2.5 py-1">Level</button><button className="rounded-full border border-slate-200 px-2.5 py-1">Category</button></div>
-          <label className="flex items-center gap-2">Sort by <select aria-label="Sort courses" className="rounded-full border border-slate-200 bg-white px-2.5 py-1"><option>Most relevant</option><option>Highest rated</option></select></label>
+          <div className="flex items-center gap-2"><span>Filter:</span>
+            <button onClick={() => { setActiveLevel("All"); setActiveCategory("All"); setCurrentPage(1); }} className="rounded-full border border-slate-200 px-2.5 py-1">All</button>
+            <label><span className="sr-only">Filter by level</span><select value={activeLevel} onChange={(event) => { setActiveLevel(event.target.value); setCurrentPage(1); }} aria-label="Filter by level" className="rounded-full border border-slate-200 bg-white px-2.5 py-1"><option value="All">Level</option><option value="Beginner">Beginner</option><option value="Intermediate">Intermediate</option><option value="Advanced">Advanced</option></select></label>
+            <label><span className="sr-only">Filter by category</span><select value={activeCategory} onChange={(event) => { setActiveCategory(event.target.value); setCurrentPage(1); }} aria-label="Filter by category" className="rounded-full border border-slate-200 bg-white px-2.5 py-1"><option value="All">Category</option>{categories.filter((category) => category !== "All").map((category) => <option key={category} value={category}>{category}</option>)}</select></label>
+          </div>
+          <label className="flex items-center gap-2">Sort by <select value={sortBy} onChange={(event) => { setSortBy(event.target.value); setCurrentPage(1); }} aria-label="Sort courses" className="rounded-full border border-slate-200 bg-white px-2.5 py-1"><option value="relevant">Most relevant</option><option value="rating">Highest rated</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option></select></label>
         </div>
         <div className="mt-4 flex gap-1.5 overflow-x-auto pb-2" aria-label="Course categories">
-          {categories.map((category) => <button key={category} onClick={() => setActiveCategory(category)} aria-pressed={activeCategory === category} className={`shrink-0 rounded-full px-2.5 py-1 text-[9px] ${activeCategory === category ? "bg-lime font-semibold text-ink" : "bg-slate-100 text-slate-600"}`}>{category}</button>)}
+          {categories.map((category) => <button key={category} onClick={() => { setActiveCategory(category); setCurrentPage(1); }} aria-pressed={activeCategory === category} className={`shrink-0 rounded-full px-2.5 py-1 text-[9px] ${activeCategory === category ? "bg-lime font-semibold text-ink" : "bg-slate-100 text-slate-600"}`}>{category}</button>)}
         </div>
         <div className="mt-3 flex items-center justify-between border-b border-slate-100 pb-2 text-[10px]">
           <h2 className="font-semibold">{term ? `Results for “${searchParams.get("q") }”` : "All Courses"}</h2>
           <span className="text-slate-500">{filteredCourses.length} courses</span>
         </div>
-        {filteredCourses.length ? <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{filteredCourses.map((course, index) => <CourseCard key={`${course.id}-${index}`} course={course} />)}</div> : <p className="py-16 text-center text-sm text-slate-500">No courses found. Try another search.</p>}
+        {visibleCourses.length ? <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{visibleCourses.map((course, index) => <CourseCard key={`${course.id}-${index}`} course={course} />)}</div> : <p className="py-16 text-center text-sm text-slate-500">No courses found. Try another search.</p>}
         <nav aria-label="Course pages" className="mt-8 flex justify-center gap-2 text-xs">
-          {["‹", "1", "2", "3", "4", "5", "›"].map((page, index) => <button key={`${page}-${index}`} className={`grid size-7 place-items-center rounded-full ${page === "1" ? "bg-lime font-semibold" : "border border-slate-200 text-slate-600"}`}>{page}</button>)}
+          <button aria-label="Previous page" disabled={currentPage === 1} onClick={() => setCurrentPage((page) => Math.max(1, page - 1))} className="grid size-7 place-items-center rounded-full border border-slate-200 text-slate-600 disabled:opacity-40">‹</button>
+          {Array.from({ length: pageCount }, (_, index) => index + 1).map((page) => <button key={page} aria-current={currentPage === page ? "page" : undefined} onClick={() => setCurrentPage(page)} className={`grid size-7 place-items-center rounded-full ${currentPage === page ? "bg-lime font-semibold" : "border border-slate-200 text-slate-600"}`}>{page}</button>)}
+          <button aria-label="Next page" disabled={currentPage === pageCount} onClick={() => setCurrentPage((page) => Math.min(pageCount, page + 1))} className="grid size-7 place-items-center rounded-full border border-slate-200 text-slate-600 disabled:opacity-40">›</button>
         </nav>
       </main>
     </PageShell>
