@@ -17,4 +17,7 @@
     linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
   background-size: 40px 40px;
 }
+.hero-sparkle {
+  clip-path: polygon(50% 0, 62% 37%, 100% 50%, 62% 63%, 50% 100%, 38% 63%, 0 50%, 38% 37%);
+}
 body { @apply font-sans text-ink antialiased; }

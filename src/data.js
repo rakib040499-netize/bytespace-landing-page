@@ -1,12 +1,12 @@
 export const categories = ["All", "Design", "Development", "Marketing", "Business", "Data", "Photography", "Music"];
 
 export const courses = [
-  { id: 1, title: "Build Digital Assets: A Comprehensive Guide", author: "Ayesha Rahman", rating: 4.8, price: 49, category: "Design" },
-  { id: 2, title: "Modern Frontend with React and Tailwind", author: "Tanvir Hasan", rating: 4.9, price: 59, category: "Development" },
-  { id: 3, title: "Growth Marketing Fundamentals", author: "Nusrat Jahan", rating: 4.6, price: 39, category: "Marketing" },
-  { id: 4, title: "Business Analytics for Beginners", author: "Imran Khan", rating: 4.7, price: 45, category: "Business" },
-  { id: 5, title: "Data Storytelling with Charts", author: "Sadia Islam", rating: 4.5, price: 42, category: "Data" },
-  { id: 6, title: "Portrait Photography Essentials", author: "Rafi Ahmed", rating: 4.8, price: 35, category: "Photography" },
+  { id: 1, title: "Learn Figma from Basic", author: "purepearl studio", rating: 4.5, price: 25, category: "Design", lessons: 17, duration: "2 hours 16 mins", comments: 59, level: "Beginner", learners: "26+", image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80" },
+  { id: 2, title: "Build Digital Asset", author: "purepearl studio", rating: 4.5, price: 25, category: "Design", lessons: 17, duration: "2 hours 16 mins", comments: 59, level: "Beginner", learners: "26+", image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80" },
+  { id: 3, title: "the Power of Big Data", author: "purepearl studio", rating: 4.5, price: 25, category: "Data", lessons: 17, duration: "2 hours 16 mins", comments: 59, level: "Beginner", learners: "26+", image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=900&q=80" },
+  { id: 4, title: "Balancing Productivity and Self-Care", author: "purepearl studio", rating: 4.5, price: 25, category: "Business", lessons: 17, duration: "2 hours 16 mins", comments: 59, level: "Beginner", learners: "26+", image: "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=900&q=80" },
+  { id: 5, title: "Mastering Money Management", author: "purepearl studio", rating: 4.5, price: 25, category: "Business", lessons: 17, duration: "2 hours 16 mins", comments: 59, level: "Beginner", learners: "26+", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80" },
+  { id: 6, title: "From Idea to Startup Success", author: "purepearl studio", rating: 4.5, price: 25, category: "Business", lessons: 17, duration: "2 hours 16 mins", comments: 59, level: "Beginner", learners: "26+", image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=900&q=80" },
 ];
 
 export const paths = ["Web Development", "UI/UX Design", "Digital Marketing", "Data Science", "Business", "Photography"];

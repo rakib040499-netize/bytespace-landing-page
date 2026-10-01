@@ -7,7 +7,10 @@ export default function Testimonials() {
       <SectionHeading title="Discover What Our Community Is Saying" />
       <div className="mt-10 grid gap-6 md:grid-cols-3">
         {testimonials.map((t) => (
-          <figure key={t.name} className="rounded-2xl border border-slate-200 p-6">
+          <figure key={t.name} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+            <div className="mb-4 flex items-center gap-1 text-yellow-400">
+              {Array.from({ length: 5 }).map((_, i) => <span key={i}>★</span>)}
+            </div>
             <blockquote className="text-sm text-slate-600">{t.text}</blockquote>
             <figcaption className="mt-5 flex items-center gap-3">
               <span className="grid h-10 w-10 place-items-center rounded-full bg-lime font-bold">{t.name[0]}</span>
